@@ -3,6 +3,7 @@
   <head>
     <link href="http://s3.amazonaws.com/codecademy-content/projects/bootstrap.min.css" rel="stylesheet" />
 		<meta name="viewport" content="initial-scale=1.0, user-scalable=yes">
+		<link href="styles/styles.css" rel="stylesheet"/>
 		<title>Moderator Clone</title>
     <meta charset="UTF-8">
 		
@@ -12,39 +13,60 @@
   <body>
 <<<<<<< Updated upstream
 		<main class="container main">
+<<<<<<< HEAD
 =======
 		<main class="container">
 		<input type="text" class="form-control" placeholder="Text input">
 >>>>>>> Stashed changes
 			<!-- Admin View -->
+=======
+			<!-- View Selection -->
+>>>>>>> bead88e3da7ddb7d03f114294304575f84ea430d
 			<div class="row">
+				<div class="col-md-4" v-on:click="changeView('Admin')">
+					<p>Create a new Series</p>
+				</div>
+				<div class="col-md-4" v-on:click="changeView('Series')">
+					<p>Series</p>
+				</div>
+				<div class="col-md-4" v-on:click="changeView('Login')">
+					<p>Login</p>
+				</div>
+			</div>
+			<!-- Admin View -->
+			<div v-if="view == 'Admin'" class="row">
 				<div class="col-md-12">
-					<form>
-						<div>
-								Title: <input type="text" name="seriesTitle">
-						</div>
-						<div>
-								Description: <input type="text" name="serierDescription">
-						</div>
-						<div>
-								Owners of Series: <input type="text" name="serierOwners">
-						</div>
-						<div>
-								<input type="submit" value="Submit">
-								<input type="submit" value="Cancel">
-						</div>
-					</form>
+					<h1 class="text-center">Create a new series</h1>
+					<div>
+							<p>Title: </p><input type="text" v-model = "adminSeriesTitle">
+					</div>
+					<div>
+							<p>Description:</p><input type="text" v-model = "adminSeriesDescription">
+					</div>
+					<div>
+							<p>Owners of Series:</p><input type="text" v-model = "adminSeriesOwners">
+					</div>
+					<div>
+						<input type="submit" value="Submit" v-on:click="addSeries(adminSeriesTitle, adminSeriesDescription, adminSeriesOwners)">
+					</div>
 				</div>
 			</div>
 			<!-- Series View -->
 			<div v-if="view == 'Series'">
+				<h1 class="text-center">Available Series</h1>
 				<!-- Series component -->
 				<series 
 					v-for="series in allSeries"
+					:series = "series"
 					:series-title="series.title"
 					:series-description="series.description"
 					:series-author="series.author"
 					:series-statements="series.statements"
+					:add-statement="addStatement"
+					:inc-score = incScore
+					:dec-score = decScore
+					:hide-statements="series.hideStatements"
+					:toggle-statements-visible="toggleStatementsVisible"
 				>
 				</series>
 			</div>
@@ -52,7 +74,7 @@
 			<div v-if="view == 'Login'">
 				<div class="row">
 					<div class="col-md-12">
-						<p class="text-center"style="font-size:3em; margin-top:3em;">Welcome Aboard</p>
+						<p class="text-center"style="font-size:3em; margin-top:3em;">Login</p>
 					</div>
 				</div>
 				<div class="row">
@@ -68,10 +90,12 @@
 		</main>
 		
 		<!-- Models and Data -->
+		<script src="models/statement-model.js"></script>
 		<script src="models/series-model.js"></script>
 		
 		<!-- Components -->
 		<script src="components/series.js"></script>
+		<script src="components/statement.js"></script>
 		
 		<!-- App Stuff -->
     <script src="controller/app.js"></script>
